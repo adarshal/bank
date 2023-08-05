@@ -22,7 +22,7 @@ public class Withdrawal extends JFrame implements ActionListener{
 		
 		this.pinnumber=pinnumber;
 		this.cardNumber=cardNumber;
-		System.out.println(cardNumber+" inside ins wi");
+//		System.out.println(cardNumber+" inside ins wi");
 		ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
 		Image i2=i1.getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT);
 		ImageIcon i3=new ImageIcon(i2);
@@ -70,16 +70,26 @@ public class Withdrawal extends JFrame implements ActionListener{
 				 double amt=Double.parseDouble(amt1);
 				 Conn conn=new Conn();
 				 String query1 = "SELECT SUM(amount) FROM bank WHERE cardnumber = '" + cardNumber + "' AND type = 'Deposit'";
+				 String query2= "SELECT SUM(amount) FROM bank WHERE cardnumber = '" + cardNumber + "' AND type = 'Withdraw'";
 //	               System.out.println("here err?");
 				    double totalDeposits = 0;
-	                try {
-	                    ResultSet rs = conn.s.executeQuery(query1);
-	                    if (rs.next()) {
-	                        totalDeposits = rs.getDouble(1);
-	                    }
-	                } catch (SQLException e) {
-	                    e.printStackTrace();
-	                }
+				    try {
+				        ResultSet rs1 = conn.s.executeQuery(query1);
+				        if (rs1.next()) {
+				        	totalDeposits += rs1.getDouble(1);
+				        }
+				    } catch (SQLException e) {
+				        e.printStackTrace();
+				    }
+
+				    try {
+				        ResultSet rs2 = conn.s.executeQuery(query2);
+				        if (rs2.next()) {
+				        	totalDeposits -= rs2.getDouble(1);
+				        }
+				    } catch (SQLException e) {
+				        e.printStackTrace();
+				    }
 	            if (totalDeposits >= amt) {
 //				 String query = "INSERT INTO bank VALUES ('" + pinnumber + "', '" + formattedDate + "', 'Deposit', '" + amt + "' )";
 				 String query = "INSERT INTO bank VALUES ('" + cardNumber +"','" + pinnumber + "', '" + formattedDate + "', 'Withdraw', '-" + amt + "' )";
@@ -99,7 +109,7 @@ public class Withdrawal extends JFrame implements ActionListener{
 			
 		}else if(ae.getSource()== back) {
 			setVisible(false);
-			System.out.println(cardNumber+" inside with");
+//			System.out.println(cardNumber+" inside with");
 			new Transactions(pinnumber,cardNumber).setVisible(true);
 		}
 	}

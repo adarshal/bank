@@ -107,7 +107,7 @@ public class PinChange extends JFrame implements ActionListener {
 			
 		}else if(ae.getSource()== back) {
 			setVisible(false);
-			System.out.println(cardNumber+" inside with");
+//			System.out.println(cardNumber+" inside with");
 			new Transactions(pinnumber,cardNumber).setVisible(true);
 		}
 	}

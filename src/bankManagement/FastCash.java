@@ -85,16 +85,27 @@ public class FastCash extends JFrame implements ActionListener{
 			 double amt=Double.parseDouble(amt1);
 			 Conn conn=new Conn();
 			 try {
-				 String query1 = "SELECT SUM(amount) FROM bank WHERE pin = '" + pinnumber + "' AND type = 'Deposit'";
-	                double totalDeposits = 0;
-	                try {
-	                    ResultSet rs = conn.s.executeQuery(query1);
-	                    if (rs.next()) {
-	                        totalDeposits = rs.getDouble(1);
-	                    }
-	                } catch (SQLException e) {
-	                    e.printStackTrace();
-	                }
+				 String query1 = "SELECT SUM(amount) FROM bank WHERE cardnumber = '" + cardNumber + "' AND type = 'Deposit'";
+				 String query2= "SELECT SUM(amount) FROM bank WHERE cardnumber = '" + cardNumber + "' AND type = 'Withdraw'";
+//	                
+				 double totalDeposits = 0;
+				 try {
+				        ResultSet rs1 = conn.s.executeQuery(query1);
+				        if (rs1.next()) {
+				        	totalDeposits += rs1.getDouble(1);
+				        }
+				    } catch (SQLException e) {
+				        e.printStackTrace();
+				    }
+
+				    try {
+				        ResultSet rs2 = conn.s.executeQuery(query2);
+				        if (rs2.next()) {
+				        	totalDeposits -= rs2.getDouble(1);
+				        }
+				    } catch (SQLException e) {
+				        e.printStackTrace();
+				    }
 	                if(totalDeposits>=amt) {
 	                	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	                    String formattedDate = dateFormat.format(new Date());
