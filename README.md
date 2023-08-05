@@ -25,6 +25,7 @@ Bank management system with ATM , JAVA GUI project, mySQL, awt,swing
 <br>
 
 
+![image](https://github.com/adarshal/bank/assets/89533221/4da3412f-26ac-46e6-a3fb-bc2b3790955e)
 
 
 
